@@ -20,5 +20,5 @@ public class RequestOnRepair {
     private LocalDate requestDate;
     @ManyToOne
     @JoinColumn(name = "engineer_id")
-    private Engineer EngineerId;
+    private Engineer engineer;
 }

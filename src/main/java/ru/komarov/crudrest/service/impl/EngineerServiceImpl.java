@@ -1,6 +1,5 @@
 package ru.komarov.crudrest.service.impl;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.komarov.crudrest.dao.EngineersRepository;
@@ -10,8 +9,8 @@ import ru.komarov.crudrest.service.EngineerService;
 @RequiredArgsConstructor
 @Service
 public class EngineerServiceImpl implements EngineerService {
+
     private final EngineersRepository engineersRepository;
-    RequestOnRepairRepository requestOnRepairRepository;
 
     @Override
     public void create(EngineerDTO engineerDTO) {
@@ -20,7 +19,7 @@ public class EngineerServiceImpl implements EngineerService {
 
     @Override
     public void deleteById(Long id) {
-
+    engineersRepository.deleteById(id);
     }
 
     @Override

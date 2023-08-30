@@ -6,21 +6,20 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Engineer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long engineerId;
     private String name;
     private String lastName;
     private LocalDate birthdate;
     private boolean carAvailability;
-    @OneToMany(mappedBy = "EngineerId")
+    @OneToMany(mappedBy = "engineer")
     private List<RequestOnRepair> requests;
-
 }

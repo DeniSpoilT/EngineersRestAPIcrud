@@ -1,11 +1,10 @@
 package ru.komarov.crudrest.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.komarov.crudrest.model.Engineer;
+import org.springframework.stereotype.Repository;
 import ru.komarov.crudrest.model.RequestOnRepair;
 
 import java.util.Optional;
-
+@Repository
 public interface RequestOnRepairRepository extends JpaRepository<RequestOnRepair, Long> {
-    Optional<RequestOnRepair> findById(Long id);
 }
