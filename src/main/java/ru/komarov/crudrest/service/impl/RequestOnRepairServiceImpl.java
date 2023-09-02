@@ -2,6 +2,7 @@ package ru.komarov.crudrest.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.komarov.crudrest.dao.RequestOnRepairRepository;
 import ru.komarov.crudrest.dto.RequestOnRepairDTO;
 import ru.komarov.crudrest.dto.converter.RequestDTOConverter;
@@ -9,35 +10,47 @@ import ru.komarov.crudrest.exception.NotFoundException;
 import ru.komarov.crudrest.model.RequestOnRepair;
 import ru.komarov.crudrest.service.RequestOnRepairService;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class RequestOnRepairServiceImpl implements RequestOnRepairService {
+    private final static String NOT_FOUND = "Request On Repair not found";
 
     private final RequestOnRepairRepository requestOnRepairRepository;
     private final RequestDTOConverter requestDTOConverter;
 
     @Override
+    @Transactional
     public void create(RequestOnRepairDTO requestOnRepairDTO) {
         RequestOnRepair entity = requestDTOConverter.toEntity(requestOnRepairDTO);
         requestOnRepairRepository.save(entity);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
+        requestOnRepairRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND));
         requestOnRepairRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public void update(RequestOnRepairDTO requestOnRepairDTO) {
         requestOnRepairRepository.findById(requestOnRepairDTO.getId())
-                .orElseThrow(() -> new NotFoundException("Request On Repair not found"));
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND));
         RequestOnRepair entity = requestDTOConverter.toEntity(requestOnRepairDTO);
         requestOnRepairRepository.save(entity);
     }
 
     @Override
+    @Transactional
     public RequestOnRepairDTO findById(Long id) {
-        return null;
+        Optional<RequestOnRepair> optionalRequestOnRepair = requestOnRepairRepository.findById(id);
+        RequestOnRepair requestOnRepair = optionalRequestOnRepair.orElseThrow(()
+                -> new NotFoundException("id: " + id + " not found"));
+        return requestDTOConverter.toDTO(requestOnRepair);
     }
 
 

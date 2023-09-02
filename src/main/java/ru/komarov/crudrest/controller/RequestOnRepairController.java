@@ -1,17 +1,19 @@
 package ru.komarov.crudrest.controller;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.komarov.crudrest.dto.RequestOnRepairDTO;
 import ru.komarov.crudrest.dto.RestResponse;
 import ru.komarov.crudrest.service.RequestOnRepairService;
 
 @RestController
+@Validated
 @RequestMapping("/requests")
-@RequiredArgsConstructor
 public class RequestOnRepairController {
+    private static final String CREATED = "Request on repair created";
 
     RequestOnRepairService requestOnRepairService;
 
@@ -20,10 +22,23 @@ public class RequestOnRepairController {
         this.requestOnRepairService = requestOnRepairService;
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public RequestOnRepairDTO findById(@PathVariable Long id){
+        return requestOnRepairService.findById(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestResponse create(@RequestBody RequestOnRepairDTO requestOnRepairDTO) {
+    public RestResponse create(@RequestBody @Valid RequestOnRepairDTO requestOnRepairDTO) {
         requestOnRepairService.create(requestOnRepairDTO);
-        return new RestResponse("Request on repair created");
+        return new RestResponse(CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public RestResponse delete(@PathVariable Long id){
+        requestOnRepairService.deleteById(id);
+        return new RestResponse("id " + id + " deleted");
     }
 }
