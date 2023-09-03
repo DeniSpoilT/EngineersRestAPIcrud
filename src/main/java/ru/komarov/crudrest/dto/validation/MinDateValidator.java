@@ -6,6 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
 public class MinDateValidator implements ConstraintValidator<MinDate, LocalDate> {
+
     private int monthToReduce;
 
     @Override

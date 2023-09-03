@@ -1,5 +1,6 @@
 package ru.komarov.crudrest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Entity
 @Builder
 public class RequestOnRepair {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

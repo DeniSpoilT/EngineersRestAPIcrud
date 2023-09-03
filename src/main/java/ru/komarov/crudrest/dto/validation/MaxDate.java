@@ -10,13 +10,10 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = MinDateValidator.class)
+@Constraint(validatedBy = MaxDateValidator.class)
 public @interface MaxDate {
     String message() default "Invalid date";
-
     int monthToReduce() default 1;
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

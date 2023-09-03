@@ -1,5 +1,6 @@
 package ru.komarov.crudrest.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,13 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Engineer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long engineerId;
+    private Long id;
     private String name;
     private String lastName;
     private LocalDate birthdate;
     private boolean carAvailability;
+    @JsonBackReference
     @OneToMany(mappedBy = "engineer")
     private List<RequestOnRepair> requests;
 }
