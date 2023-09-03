@@ -9,11 +9,13 @@ import ru.komarov.crudrest.dto.RequestOnRepairDTO;
 import ru.komarov.crudrest.dto.RestResponse;
 import ru.komarov.crudrest.service.RequestOnRepairService;
 
+import static ru.komarov.crudrest.constant.Constant.CREATED;
+
 @RestController
 @Validated
 @RequestMapping("/requests")
 public class RequestOnRepairController {
-    private static final String CREATED = "Request on repair created";
+
 
     RequestOnRepairService requestOnRepairService;
 

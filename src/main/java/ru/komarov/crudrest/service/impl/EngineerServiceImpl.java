@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.komarov.crudrest.dao.EngineersRepository;
-import ru.komarov.crudrest.dao.RequestOnRepairRepository;
 import ru.komarov.crudrest.dto.EngineerDTO;
 import ru.komarov.crudrest.service.EngineerService;
 @RequiredArgsConstructor

@@ -12,10 +12,11 @@ import ru.komarov.crudrest.service.RequestOnRepairService;
 
 import java.util.Optional;
 
+import static ru.komarov.crudrest.constant.Constant.NOT_FOUND;
+
 @RequiredArgsConstructor
 @Service
 public class RequestOnRepairServiceImpl implements RequestOnRepairService {
-    private final static String NOT_FOUND = "Request On Repair not found";
 
     private final RequestOnRepairRepository requestOnRepairRepository;
     private final RequestDTOConverter requestDTOConverter;
