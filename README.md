@@ -29,6 +29,7 @@
 - Spring Data
 - Spring MVC
 - H2 database in memory
+- Maven
 
 > Basic configuration in application.properties:
 ```
