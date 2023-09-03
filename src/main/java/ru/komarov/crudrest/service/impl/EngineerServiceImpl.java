@@ -1,12 +1,10 @@
 package ru.komarov.crudrest.service.impl;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import ru.komarov.crudrest.dao.EngineersRepository;
 import ru.komarov.crudrest.dto.EngineerDTO;
 import ru.komarov.crudrest.dto.converter.EntityToDTOConverter;
@@ -35,16 +33,16 @@ public class EngineerServiceImpl implements EngineerService {
     @Override
     @Transactional
     public void create(EngineerDTO engineerDTO) {
-        Engineer entity = entityToDTOConverter.toEntity(engineerDTO);
-        engineersRepository.save(entity);
+        Engineer engineer = entityToDTOConverter.toEntity(engineerDTO);
+        engineersRepository.save(engineer);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        engineersRepository.findById(id)
+        Engineer engineer = engineersRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ENGINEER_NOT_FOUND));
-        engineersRepository.deleteById(id);
+        engineersRepository.delete(engineer);
     }
 
     @Override
@@ -56,7 +54,7 @@ public class EngineerServiceImpl implements EngineerService {
 
     @Override
     @Transactional
-    public void update(@PathVariable Long id, @RequestBody @Valid EngineerDTO engineerDTO) {
+    public void update(Long id, EngineerDTO engineerDTO) {
         Optional<Engineer> optionalEngineer = engineersRepository.findById(id);
         Engineer engineer = optionalEngineer.orElseThrow(()
                 -> new NotFoundException("id: " + id + " not found"));

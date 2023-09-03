@@ -23,6 +23,6 @@ public class Engineer {
     private LocalDate birthdate;
     private boolean carAvailability;
     @JsonBackReference
-    @OneToMany(mappedBy = "engineer")
+    @OneToMany(mappedBy = "engineer", fetch = FetchType.LAZY)
     private List<RequestOnRepair> requests;
 }

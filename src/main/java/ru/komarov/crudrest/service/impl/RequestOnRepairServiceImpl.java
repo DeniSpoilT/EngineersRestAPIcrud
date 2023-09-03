@@ -3,8 +3,6 @@ package ru.komarov.crudrest.service.impl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import ru.komarov.crudrest.dao.RequestOnRepairRepository;
 import ru.komarov.crudrest.dto.RequestOnRepairDTO;
 import ru.komarov.crudrest.dto.converter.EntityToDTOConverter;
@@ -32,21 +30,21 @@ public class RequestOnRepairServiceImpl implements RequestOnRepairService {
     @Override
     @Transactional
     public void create(RequestOnRepairDTO requestOnRepairDTO) {
-        RequestOnRepair entity = entityToDTOConverter.toEntity(requestOnRepairDTO);
-        requestOnRepairRepository.save(entity);
+        RequestOnRepair requestOnRepair = entityToDTOConverter.toEntity(requestOnRepairDTO);
+        requestOnRepairRepository.save(requestOnRepair);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        requestOnRepairRepository.findById(id)
+        RequestOnRepair requestOnRepair = requestOnRepairRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(REQUEST_ON_REPAIR_NOT_FOUND));
-        requestOnRepairRepository.deleteById(id);
+        requestOnRepairRepository.delete(requestOnRepair);
     }
 
     @Override
     @Transactional
-    public void update(@PathVariable Long id, @RequestBody RequestOnRepairDTO requestOnRepairDTO) {
+    public void update(Long id, RequestOnRepairDTO requestOnRepairDTO) {
         Optional<RequestOnRepair> optionalRequestOnRepair = requestOnRepairRepository.findById(id);
         RequestOnRepair requestOnRepair = optionalRequestOnRepair.orElseThrow(()
                 -> new NotFoundException("id: " + id + " not found"));
@@ -67,6 +65,7 @@ public class RequestOnRepairServiceImpl implements RequestOnRepairService {
     }
 
     @Override
+    @Transactional
     public List<RequestOnRepair> findAll() {
         return requestOnRepairRepository.findAll();
     }
