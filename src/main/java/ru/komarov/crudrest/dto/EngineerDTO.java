@@ -1,5 +1,7 @@
 package ru.komarov.crudrest.dto;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -41,6 +43,6 @@ public class EngineerDTO {
     @NotNull(message = CAR_AVAILABILITY_CONSTRAINT)
     private Boolean carAvailability;
 
-    @OneToMany(mappedBy = "engineerId")
+    @OneToMany(mappedBy = "engineerId", fetch = FetchType.EAGER)
     private List<RequestOnRepair> requests;
 }

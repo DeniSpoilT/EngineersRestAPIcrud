@@ -20,7 +20,7 @@ public class RequestOnRepair {
     private String contactPerson;
     private String phoneNumber;
     private LocalDate requestDate;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "engineer_id")
     private Engineer engineer;
 }
