@@ -1,6 +1,6 @@
 package ru.komarov.crudrest.constant;
 
-public class Constant {
+public final class Constant {
 
     public final static String NAME_NOT_EMPTY = "Name should not be empty";
     public final static String LASTNAME_NOT_EMPTY = "Last name should not be empty";

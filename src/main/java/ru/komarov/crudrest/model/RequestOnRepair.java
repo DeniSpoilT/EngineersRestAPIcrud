@@ -1,6 +1,5 @@
 package ru.komarov.crudrest.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,11 +15,16 @@ public class RequestOnRepair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String address;
+
     private String contactPerson;
+
     private String phoneNumber;
+
     private LocalDate requestDate;
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "engineer_id")
     private Engineer engineer;
 }

@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Component
 @Qualifier("RequestDTOConverter")
-public class RequestDTOConverter implements EntityToDTOConverter<RequestOnRepairDTO, RequestOnRepair> {
+public class RequestDTOConverter implements EntityDTOConverter<RequestOnRepairDTO, RequestOnRepair> {
     RequestOnRepairRepository repairRepository;
     EngineersRepository engineersRepository;
 
@@ -39,27 +39,30 @@ public class RequestDTOConverter implements EntityToDTOConverter<RequestOnRepair
         if (requestOnRepair.getEngineer() != null) {
             dto.setEngineerId(requestOnRepair.getEngineer().getId());
         }
+
         return dto;
     }
 
     @Override
     @Transactional
-    public RequestOnRepair toEntity(RequestOnRepairDTO requestOnRepairDTO) {
+    public RequestOnRepair toEntity(RequestOnRepairDTO requestOnRepairDto) {
 
         RequestOnRepair entity = RequestOnRepair.builder()
-                .id(requestOnRepairDTO.getId())
-                .address(requestOnRepairDTO.getAddress())
-                .requestDate(requestOnRepairDTO.getRequestDate())
-                .contactPerson(requestOnRepairDTO.getContactPerson())
-                .phoneNumber(requestOnRepairDTO.getPhoneNumber())
+                .id(requestOnRepairDto.getId())
+                .address(requestOnRepairDto.getAddress())
+                .requestDate(requestOnRepairDto.getRequestDate())
+                .contactPerson(requestOnRepairDto.getContactPerson())
+                .phoneNumber(requestOnRepairDto.getPhoneNumber())
                 .build();
 
-        if (requestOnRepairDTO.getEngineerId() != null) {
-            Optional<Engineer> optionalEngineer = engineersRepository.findById(requestOnRepairDTO.getEngineerId());
+        if (requestOnRepairDto.getEngineerId() != null) {
+            Optional<Engineer> optionalEngineer = engineersRepository.findById(requestOnRepairDto.getEngineerId());
             Engineer engineer = optionalEngineer.orElseThrow(() -> new NotFoundException("Engineer with id: "
-                    + requestOnRepairDTO.getEngineerId() + " not found."));
+                    + requestOnRepairDto.getEngineerId() + " not found."));
             entity.setEngineer(engineer);
+            engineer.getRequests().add(entity);
         }
+
         return entity;
     }
 }

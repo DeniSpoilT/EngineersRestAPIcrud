@@ -1,5 +1,6 @@
 package ru.komarov.crudrest.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,36 +28,41 @@ public class RequestOnRepairController {
         this.requestOnRepairService = requestOnRepairService;
     }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public RequestOnRepairDTO findById(@PathVariable Long id) {
-        return requestOnRepairService.findById(id);
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public RestResponse create(@RequestBody @Valid RequestOnRepairDTO requestOnRepairDTO) {
-        requestOnRepairService.create(requestOnRepairDTO);
-        return new RestResponse(REQUEST_ON_REPAIR_CREATED);
-    }
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get all requests on repair")
     public List<RequestOnRepair> findAll() {
         return requestOnRepairService.findAll();
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public RestResponse update(@PathVariable Long id, @RequestBody @Valid RequestOnRepairDTO requestOnRepairDTO) {
-        requestOnRepairService.update(id, requestOnRepairDTO);
-        return new RestResponse(REQUEST_ON_REPAIR_UPDATED);
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create new requests on repair")
+    public RestResponse create(@RequestBody @Valid RequestOnRepairDTO requestOnRepairDto) {
+        requestOnRepairService.create(requestOnRepairDto);
+        return new RestResponse(REQUEST_ON_REPAIR_CREATED);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Delete requests on repair with the specified id")
     public RestResponse delete(@PathVariable Long id) {
         requestOnRepairService.deleteById(id);
         return new RestResponse("id " + id + " deleted");
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Modify requests on repair with the specified id")
+    public RestResponse update(@PathVariable Long id, @RequestBody @Valid RequestOnRepairDTO requestOnRepairDto) {
+        requestOnRepairService.update(id, requestOnRepairDto);
+        return new RestResponse(REQUEST_ON_REPAIR_UPDATED);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get requests on repair with the specified id")
+    public RequestOnRepairDTO findById(@PathVariable Long id) {
+        return requestOnRepairService.findById(id);
     }
 }

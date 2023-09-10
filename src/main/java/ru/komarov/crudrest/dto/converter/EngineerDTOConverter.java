@@ -5,25 +5,28 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.komarov.crudrest.dao.RequestOnRepairRepository;
 import ru.komarov.crudrest.dto.EngineerDTO;
+import ru.komarov.crudrest.dto.RequestOnRepairDTO;
 import ru.komarov.crudrest.model.Engineer;
 import ru.komarov.crudrest.model.RequestOnRepair;
 
 import java.util.List;
 
-
 @Component
 @Qualifier("EngineerDTOConverter")
-public class EngineerDTOConverter implements EntityToDTOConverter<EngineerDTO, Engineer> {
+public class EngineerDTOConverter implements EntityDTOConverter<EngineerDTO, Engineer> {
     RequestOnRepairRepository requestOnRepairRepository;
+    RequestDTOConverter requestDTOConverter;
 
     @Autowired
-    public EngineerDTOConverter(RequestOnRepairRepository requestOnRepairRepository) {
+    public EngineerDTOConverter(RequestOnRepairRepository requestOnRepairRepository,
+                                RequestDTOConverter requestDtoConverter) {
         this.requestOnRepairRepository = requestOnRepairRepository;
+        this.requestDTOConverter = requestDtoConverter;
     }
 
     @Override
     public EngineerDTO toDTO(Engineer engineer) {
-        EngineerDTO engineerDTO = EngineerDTO.builder()
+        EngineerDTO engineerDto = EngineerDTO.builder()
                 .id(engineer.getId())
                 .name(engineer.getName())
                 .lastName(engineer.getLastName())
@@ -32,23 +35,28 @@ public class EngineerDTOConverter implements EntityToDTOConverter<EngineerDTO, E
                 .build();
 
         if (engineer.getRequests() != null) {
-            engineerDTO.setRequests(engineer.getRequests());
+            List<RequestOnRepair> requests = engineer.getRequests();
+            List<RequestOnRepairDTO> requestDTOs = requests.stream()
+                    .map(requestOnRepair -> requestDTOConverter.toDTO(requestOnRepair))
+                    .toList();
+            engineerDto.setRequests(requestDTOs);
         }
-        return engineerDTO;
+
+        return engineerDto;
     }
 
     @Override
-    public Engineer toEntity(EngineerDTO engineerDTO) {
+    public Engineer toEntity(EngineerDTO engineerDto) {
         Engineer engineer = Engineer.builder()
-                .id(engineerDTO.getId())
-                .name(engineerDTO.getName())
-                .lastName(engineerDTO.getLastName())
-                .birthdate(engineerDTO.getBirthdate())
-                .carAvailability(engineerDTO.getCarAvailability())
+                .id(engineerDto.getId())
+                .name(engineerDto.getName())
+                .lastName(engineerDto.getLastName())
+                .birthdate(engineerDto.getBirthdate())
+                .carAvailability(engineerDto.getCarAvailability())
                 .build();
 
-        if (engineerDTO.getRequests() != null) {
-            List<RequestOnRepair> requests = requestOnRepairRepository.findAllByEngineerId(engineerDTO.getId());
+        if (engineerDto.getRequests() != null) {
+            List<RequestOnRepair> requests = requestOnRepairRepository.findAllByEngineerId(engineerDto.getId());
             engineer.setRequests(requests);
         }
         return engineer;
