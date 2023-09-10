@@ -1,6 +1,10 @@
 package ru.komarov.crudrest.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +24,11 @@ import static ru.komarov.crudrest.constant.Constant.ENGINEER_UPDATED;
 @RestController
 @Validated
 @RequestMapping("/engineers")
+@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ok",
+        content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = Engineer.class))}),
+        @ApiResponse(responseCode = "400", description = "Invalid operation"),
+        @ApiResponse(responseCode = "404", description = "Id not found")})
 public class EngineerController {
 
     EngineerService engineerService;
