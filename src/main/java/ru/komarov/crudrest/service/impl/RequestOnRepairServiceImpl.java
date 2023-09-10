@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.komarov.crudrest.dao.RequestOnRepairRepository;
 import ru.komarov.crudrest.dto.RequestOnRepairDTO;
-import ru.komarov.crudrest.dto.converter.EntityToDTOConverter;
+import ru.komarov.crudrest.dto.converter.EntityDTOConverter;
 import ru.komarov.crudrest.exception.NotFoundException;
 import ru.komarov.crudrest.model.RequestOnRepair;
 import ru.komarov.crudrest.service.RequestOnRepairService;
@@ -19,18 +19,18 @@ import static ru.komarov.crudrest.constant.Constant.REQUEST_ON_REPAIR_NOT_FOUND;
 public class RequestOnRepairServiceImpl implements RequestOnRepairService {
 
     private final RequestOnRepairRepository requestOnRepairRepository;
-    private final EntityToDTOConverter<RequestOnRepairDTO, RequestOnRepair> entityToDTOConverter;
+    private final EntityDTOConverter<RequestOnRepairDTO, RequestOnRepair> entityDtoConverter;
 
     public RequestOnRepairServiceImpl(RequestOnRepairRepository requestOnRepairRepository,
-                                      @Qualifier("RequestDTOConverter") EntityToDTOConverter entityToDTOConverter) {
+                                      @Qualifier("RequestDTOConverter") EntityDTOConverter entityDtoConverter) {
         this.requestOnRepairRepository = requestOnRepairRepository;
-        this.entityToDTOConverter = entityToDTOConverter;
+        this.entityDtoConverter = entityDtoConverter;
     }
 
     @Override
     @Transactional
-    public void create(RequestOnRepairDTO requestOnRepairDTO) {
-        RequestOnRepair requestOnRepair = entityToDTOConverter.toEntity(requestOnRepairDTO);
+    public void create(RequestOnRepairDTO requestOnRepairDto) {
+        RequestOnRepair requestOnRepair = entityDtoConverter.toEntity(requestOnRepairDto);
         requestOnRepairRepository.save(requestOnRepair);
     }
 
@@ -44,24 +44,28 @@ public class RequestOnRepairServiceImpl implements RequestOnRepairService {
 
     @Override
     @Transactional
-    public void update(Long id, RequestOnRepairDTO requestOnRepairDTO) {
+    public void update(Long id, RequestOnRepairDTO requestOnRepairDto) {
         Optional<RequestOnRepair> optionalRequestOnRepair = requestOnRepairRepository.findById(id);
+
         RequestOnRepair requestOnRepair = optionalRequestOnRepair.orElseThrow(()
                 -> new NotFoundException("id: " + id + " not found"));
-        requestOnRepair.setAddress(requestOnRepairDTO.getAddress());
-        requestOnRepair.setPhoneNumber(requestOnRepairDTO.getPhoneNumber());
-        requestOnRepair.setRequestDate(requestOnRepairDTO.getRequestDate());
-        requestOnRepair.setContactPerson(requestOnRepairDTO.getContactPerson());
-        requestOnRepair.setEngineer(entityToDTOConverter.toEntity(requestOnRepairDTO).getEngineer());
+
+        requestOnRepair.setAddress(requestOnRepairDto.getAddress());
+        requestOnRepair.setPhoneNumber(requestOnRepairDto.getPhoneNumber());
+        requestOnRepair.setRequestDate(requestOnRepairDto.getRequestDate());
+        requestOnRepair.setContactPerson(requestOnRepairDto.getContactPerson());
+        requestOnRepair.setEngineer(entityDtoConverter.toEntity(requestOnRepairDto).getEngineer());
     }
 
     @Override
     @Transactional
     public RequestOnRepairDTO findById(Long id) {
         Optional<RequestOnRepair> optionalRequestOnRepair = requestOnRepairRepository.findById(id);
+
         RequestOnRepair requestOnRepair = optionalRequestOnRepair.orElseThrow(()
                 -> new NotFoundException("id: " + id + " not found"));
-        return entityToDTOConverter.toDTO(requestOnRepair);
+
+        return entityDtoConverter.toDTO(requestOnRepair);
     }
 
     @Override
@@ -69,5 +73,4 @@ public class RequestOnRepairServiceImpl implements RequestOnRepairService {
     public List<RequestOnRepair> findAll() {
         return requestOnRepairRepository.findAll();
     }
-
 }

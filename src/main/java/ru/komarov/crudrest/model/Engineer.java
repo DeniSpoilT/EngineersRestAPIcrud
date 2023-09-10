@@ -18,11 +18,16 @@ public class Engineer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String lastName;
+
     private LocalDate birthdate;
+
     private boolean carAvailability;
+
     @JsonBackReference
-    @OneToMany(mappedBy = "engineer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "engineer", fetch = FetchType.EAGER)
     private List<RequestOnRepair> requests;
 }

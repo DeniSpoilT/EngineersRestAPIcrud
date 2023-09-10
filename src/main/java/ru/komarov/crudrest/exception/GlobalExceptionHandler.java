@@ -16,17 +16,19 @@ import java.util.Set;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    protected ResponseEntity<Object> handleEngineerNotFound(NotFoundException exception){
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
+    protected ResponseEntity<Object> handleNotFound(NotFoundException exception){
+        return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException exception){
         Set<String> errorsSet = new HashSet<>();
+
         exception.getBindingResult().getAllErrors().forEach(error -> {
             String errorMessage = error.getDefaultMessage();
             errorsSet.add(errorMessage);
         });
+
         return buildErrorArrayResponse(errorsSet.toArray(new String[0]));
     }
 

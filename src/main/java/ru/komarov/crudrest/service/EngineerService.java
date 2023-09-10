@@ -8,8 +8,11 @@ import java.util.List;
 public interface EngineerService {
 
     void create(EngineerDTO engineerDTO);
+
     void deleteById(Long id);
+
     void update(Long id, EngineerDTO engineerDTO);
+
     EngineerDTO findById(Long id);
 
     List<Engineer> findAll();

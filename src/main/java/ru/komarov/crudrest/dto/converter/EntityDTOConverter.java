@@ -1,6 +1,6 @@
 package ru.komarov.crudrest.dto.converter;
 
-public interface EntityToDTOConverter<DTO, Entity> {
+public interface EntityDTOConverter<DTO, Entity> {
 
     DTO toDTO(Entity entity);
     Entity toEntity(DTO dto);

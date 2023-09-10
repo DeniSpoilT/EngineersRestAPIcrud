@@ -1,11 +1,7 @@
 package ru.komarov.crudrest.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +9,6 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.komarov.crudrest.dto.validation.MaxDate;
 import ru.komarov.crudrest.dto.validation.MinDate;
-import ru.komarov.crudrest.model.RequestOnRepair;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -43,6 +38,5 @@ public class EngineerDTO {
     @NotNull(message = CAR_AVAILABILITY_CONSTRAINT)
     private Boolean carAvailability;
 
-    @OneToMany(mappedBy = "engineerId", fetch = FetchType.EAGER)
-    private List<RequestOnRepair> requests;
+    private List<RequestOnRepairDTO> requests;
 }

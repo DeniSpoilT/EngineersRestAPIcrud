@@ -2,12 +2,11 @@ package ru.komarov.crudrest.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.komarov.crudrest.dao.EngineersRepository;
 import ru.komarov.crudrest.dto.EngineerDTO;
-import ru.komarov.crudrest.dto.converter.EntityToDTOConverter;
+import ru.komarov.crudrest.dto.converter.EntityDTOConverter;
 import ru.komarov.crudrest.exception.NotFoundException;
 import ru.komarov.crudrest.model.Engineer;
 import ru.komarov.crudrest.service.EngineerService;
@@ -21,19 +20,19 @@ import static ru.komarov.crudrest.constant.Constant.ENGINEER_NOT_FOUND;
 public class EngineerServiceImpl implements EngineerService {
 
     private final EngineersRepository engineersRepository;
-    private final EntityToDTOConverter<EngineerDTO, Engineer> entityToDTOConverter;
+    private final EntityDTOConverter<EngineerDTO, Engineer> entityDtoConverter;
 
     @Autowired
     public EngineerServiceImpl(EngineersRepository engineersRepository,
-                               @Qualifier("EngineerDTOConverter") EntityToDTOConverter entityToDTOConverter) {
+                               @Qualifier("EngineerDTOConverter") EntityDTOConverter entityDtoConverter) {
         this.engineersRepository = engineersRepository;
-        this.entityToDTOConverter = entityToDTOConverter;
+        this.entityDtoConverter = entityDtoConverter;
     }
 
     @Override
     @Transactional
-    public void create(EngineerDTO engineerDTO) {
-        Engineer engineer = entityToDTOConverter.toEntity(engineerDTO);
+    public void create(EngineerDTO engineerDto) {
+        Engineer engineer = entityDtoConverter.toEntity(engineerDto);
         engineersRepository.save(engineer);
     }
 
@@ -54,22 +53,26 @@ public class EngineerServiceImpl implements EngineerService {
 
     @Override
     @Transactional
-    public void update(Long id, EngineerDTO engineerDTO) {
+    public void update(Long id, EngineerDTO engineerDto) {
         Optional<Engineer> optionalEngineer = engineersRepository.findById(id);
+
         Engineer engineer = optionalEngineer.orElseThrow(()
                 -> new NotFoundException("id: " + id + " not found"));
-        engineer.setName(engineerDTO.getName());
-        engineer.setLastName(engineerDTO.getLastName());
-        engineer.setBirthdate(engineerDTO.getBirthdate());
-        engineer.setCarAvailability(engineerDTO.getCarAvailability());
+
+        engineer.setName(engineerDto.getName());
+        engineer.setLastName(engineerDto.getLastName());
+        engineer.setBirthdate(engineerDto.getBirthdate());
+        engineer.setCarAvailability(engineerDto.getCarAvailability());
     }
 
     @Override
     @Transactional
     public EngineerDTO findById(Long id) {
         Optional<Engineer> optionalEngineer = engineersRepository.findById(id);
+
         Engineer engineer = optionalEngineer.orElseThrow(()
                 -> new NotFoundException("id: " + id + " not found"));
-        return entityToDTOConverter.toDTO(engineer);
+
+        return entityDtoConverter.toDTO(engineer);
     }
 }
