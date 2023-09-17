@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<Object> handleNotFound(NotFoundException exception){
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

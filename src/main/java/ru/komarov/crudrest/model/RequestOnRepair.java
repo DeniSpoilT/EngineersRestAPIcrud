@@ -24,7 +24,7 @@ public class RequestOnRepair {
 
     private LocalDate requestDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "engineer_id")
     private Engineer engineer;
 }

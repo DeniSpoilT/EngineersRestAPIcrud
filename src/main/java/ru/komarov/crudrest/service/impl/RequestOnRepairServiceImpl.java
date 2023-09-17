@@ -70,7 +70,11 @@ public class RequestOnRepairServiceImpl implements RequestOnRepairService {
 
     @Override
     @Transactional
-    public List<RequestOnRepair> findAll() {
-        return requestOnRepairRepository.findAll();
+    public List<RequestOnRepairDTO> findAll() {
+        List<RequestOnRepairDTO> requests = requestOnRepairRepository.findAll()
+                .stream()
+                .map(requestOnRepair -> entityDtoConverter.toDTO(requestOnRepair))
+                .toList();
+        return requests;
     }
 }

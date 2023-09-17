@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.komarov.crudrest.dao.EngineersRepository;
+import ru.komarov.crudrest.dao.EngineerRepository;
 import ru.komarov.crudrest.dto.EngineerDTO;
+import ru.komarov.crudrest.dto.converter.EngineerDTOConverter;
 import ru.komarov.crudrest.dto.converter.EntityDTOConverter;
 import ru.komarov.crudrest.exception.NotFoundException;
 import ru.komarov.crudrest.model.Engineer;
@@ -19,13 +20,13 @@ import static ru.komarov.crudrest.constant.Constant.ENGINEER_NOT_FOUND;
 @Service
 public class EngineerServiceImpl implements EngineerService {
 
-    private final EngineersRepository engineersRepository;
+    private final EngineerRepository engineerRepository;
     private final EntityDTOConverter<EngineerDTO, Engineer> entityDtoConverter;
 
     @Autowired
-    public EngineerServiceImpl(EngineersRepository engineersRepository,
+    public EngineerServiceImpl(EngineerRepository engineerRepository,
                                @Qualifier("EngineerDTOConverter") EntityDTOConverter entityDtoConverter) {
-        this.engineersRepository = engineersRepository;
+        this.engineerRepository = engineerRepository;
         this.entityDtoConverter = entityDtoConverter;
     }
 
@@ -33,28 +34,42 @@ public class EngineerServiceImpl implements EngineerService {
     @Transactional
     public void create(EngineerDTO engineerDto) {
         Engineer engineer = entityDtoConverter.toEntity(engineerDto);
-        engineersRepository.save(engineer);
+        engineerRepository.save(engineer);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Engineer engineer = engineersRepository.findById(id)
+        Engineer engineer = engineerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ENGINEER_NOT_FOUND));
-        engineersRepository.delete(engineer);
+        engineerRepository.delete(engineer);
     }
 
     @Override
     @Transactional
-    public List<Engineer> findAll() {
-        return engineersRepository.findAll();
+    public List<EngineerDTO> findAll() {
+        List<EngineerDTO> engineersDto = engineerRepository.findAll()
+                .stream()
+                .map(engineer -> entityDtoConverter.toDTOWithoutRelatedEnteties(engineer))
+                .toList();
+        return engineersDto;
+    }
+
+    @Override
+    @Transactional
+    public List<EngineerDTO> findAllEngineersWithRequests() {
+        List<Engineer> engineers = engineerRepository.findAllEngineersWithRequests();
+        List<EngineerDTO>  engineersDto = engineers.stream()
+                .map(engineer -> entityDtoConverter.toDTO(engineer))
+                .toList();
+        return engineersDto;
     }
 
 
     @Override
     @Transactional
     public void update(Long id, EngineerDTO engineerDto) {
-        Optional<Engineer> optionalEngineer = engineersRepository.findById(id);
+        Optional<Engineer> optionalEngineer = engineerRepository.findById(id);
 
         Engineer engineer = optionalEngineer.orElseThrow(()
                 -> new NotFoundException("id: " + id + " not found"));
@@ -68,7 +83,7 @@ public class EngineerServiceImpl implements EngineerService {
     @Override
     @Transactional
     public EngineerDTO findById(Long id) {
-        Optional<Engineer> optionalEngineer = engineersRepository.findById(id);
+        Optional<Engineer> optionalEngineer = engineerRepository.findById(id);
 
         Engineer engineer = optionalEngineer.orElseThrow(()
                 -> new NotFoundException("id: " + id + " not found"));

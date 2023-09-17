@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.TypedQuery;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +33,7 @@ import static ru.komarov.crudrest.constant.Constant.ENGINEER_UPDATED;
         @ApiResponse(responseCode = "404", description = "Id not found")})
 public class EngineerController {
 
-    EngineerService engineerService;
+   private final EngineerService engineerService;
 
     @Autowired
     public EngineerController(EngineerService engineerService) {
@@ -41,8 +43,15 @@ public class EngineerController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all Engineers")
-    public List<Engineer> findAll() {
+    public List<EngineerDTO> findAll() {
         return engineerService.findAll();
+    }
+
+    @GetMapping("/requests")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get all engineers with the repair requests assigned to them")
+    public List<EngineerDTO> findAllEngineersWithRequest() {
+        return engineerService.findAllEngineersWithRequests();
     }
 
     @PostMapping
