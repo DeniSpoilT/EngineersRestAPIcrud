@@ -30,7 +30,7 @@ import static ru.komarov.crudrest.constant.Constant.REQUEST_ON_REPAIR_UPDATED;
         @ApiResponse(responseCode = "404", description = "Id not found")})
 public class RequestOnRepairController {
 
-    RequestOnRepairService requestOnRepairService;
+    private final RequestOnRepairService requestOnRepairService;
 
     @Autowired
     public RequestOnRepairController(RequestOnRepairService requestOnRepairService) {
@@ -40,7 +40,7 @@ public class RequestOnRepairController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all requests on repair")
-    public List<RequestOnRepair> findAll() {
+    public List<RequestOnRepairDTO> findAll() {
         return requestOnRepairService.findAll();
     }
 

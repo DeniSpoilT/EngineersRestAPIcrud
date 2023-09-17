@@ -14,8 +14,8 @@ import java.util.List;
 @Component
 @Qualifier("EngineerDTOConverter")
 public class EngineerDTOConverter implements EntityDTOConverter<EngineerDTO, Engineer> {
-    RequestOnRepairRepository requestOnRepairRepository;
-    RequestDTOConverter requestDTOConverter;
+    private final RequestOnRepairRepository requestOnRepairRepository;
+    private final RequestDTOConverter requestDTOConverter;
 
     @Autowired
     public EngineerDTOConverter(RequestOnRepairRepository requestOnRepairRepository,
@@ -26,13 +26,7 @@ public class EngineerDTOConverter implements EntityDTOConverter<EngineerDTO, Eng
 
     @Override
     public EngineerDTO toDTO(Engineer engineer) {
-        EngineerDTO engineerDto = EngineerDTO.builder()
-                .id(engineer.getId())
-                .name(engineer.getName())
-                .lastName(engineer.getLastName())
-                .birthdate(engineer.getBirthdate())
-                .carAvailability(engineer.isCarAvailability())
-                .build();
+        EngineerDTO engineerDto = toDTOWithoutRelatedEnteties(engineer);
 
         if (engineer.getRequests() != null) {
             List<RequestOnRepair> requests = engineer.getRequests();
@@ -44,6 +38,19 @@ public class EngineerDTOConverter implements EntityDTOConverter<EngineerDTO, Eng
 
         return engineerDto;
     }
+
+    @Override
+    public EngineerDTO toDTOWithoutRelatedEnteties(Engineer engineer) {
+        EngineerDTO engineerDto = EngineerDTO.builder()
+                .id(engineer.getId())
+                .name(engineer.getName())
+                .lastName(engineer.getLastName())
+                .birthdate(engineer.getBirthdate())
+                .carAvailability(engineer.isCarAvailability())
+                .build();
+        return engineerDto;
+    }
+
 
     @Override
     public Engineer toEntity(EngineerDTO engineerDto) {

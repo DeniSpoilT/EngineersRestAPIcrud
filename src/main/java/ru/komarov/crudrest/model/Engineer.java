@@ -28,6 +28,6 @@ public class Engineer {
     private boolean carAvailability;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "engineer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "engineer")
     private List<RequestOnRepair> requests;
 }

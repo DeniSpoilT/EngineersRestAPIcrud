@@ -15,5 +15,7 @@ public interface EngineerService {
 
     EngineerDTO findById(Long id);
 
-    List<Engineer> findAll();
+    List<EngineerDTO> findAll();
+
+    List<EngineerDTO> findAllEngineersWithRequests();
 }

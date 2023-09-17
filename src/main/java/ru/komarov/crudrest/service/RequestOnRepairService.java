@@ -1,7 +1,6 @@
 package ru.komarov.crudrest.service;
 
 import ru.komarov.crudrest.dto.RequestOnRepairDTO;
-import ru.komarov.crudrest.model.RequestOnRepair;
 
 import java.util.List;
 
@@ -15,5 +14,5 @@ public interface RequestOnRepairService {
 
     RequestOnRepairDTO findById(Long id);
 
-    List<RequestOnRepair> findAll();
+    List<RequestOnRepairDTO> findAll();
 }

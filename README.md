@@ -8,18 +8,19 @@
 
 ### Endpoints:
 
-| Endpoint               | Description             |
-|------------------------|-------------------------|
-| GET /engineers         | Find all engineers      |
-| GET /engineers/{id}    | Find engineer by id     |
-| POST /engineers        | Create engineer         |
-| PUT /engineers/{id}    | Update engineer by id   |
-| DELETE /engineers/{id} | Delete engineer by id   |
-| GET /requests          | Find all requests       |
-| GET /requests/{id}     | Find request by id      |
-| POST /requests         | Create request          |
-| PUT /requests/{id}     | Update request by id    |
-| DELETE /requests/{id}  | Delete request by id    |
+| Endpoint                | Description                      |
+|-------------------------|----------------------------------|
+| GET /engineers          | Find all engineers               |
+| GET /engineers/requests | Find all engineers with requests |
+| GET /engineers/{id}     | Find engineer by id              |
+| POST /engineers         | Create engineer                  |
+| PUT /engineers/{id}     | Update engineer by id            |
+| DELETE /engineers/{id}  | Delete engineer by id            |
+| GET /requests           | Find all requests                |
+| GET /requests/{id}      | Find request by id               |
+| POST /requests          | Create request                   |
+| PUT /requests/{id}      | Update request by id             |
+| DELETE /requests/{id}   | Delete request by id             |
 
 ---
 
