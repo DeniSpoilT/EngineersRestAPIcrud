@@ -29,6 +29,7 @@ import static ru.komarov.crudrest.constant.Constant.ENGINEER_UPDATED;
 @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ok",
         content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = Engineer.class))}),
+        @ApiResponse(responseCode = "201", description = "Engineer created"),
         @ApiResponse(responseCode = "400", description = "Invalid operation"),
         @ApiResponse(responseCode = "404", description = "Id not found")})
 public class EngineerController {
