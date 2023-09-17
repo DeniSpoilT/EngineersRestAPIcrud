@@ -26,6 +26,7 @@ import static ru.komarov.crudrest.constant.Constant.REQUEST_ON_REPAIR_UPDATED;
 @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ok",
         content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = RequestOnRepair.class))}),
+        @ApiResponse(responseCode = "201", description = "Request on repair created"),
         @ApiResponse(responseCode = "400", description = "Invalid operation"),
         @ApiResponse(responseCode = "404", description = "Id not found")})
 public class RequestOnRepairController {

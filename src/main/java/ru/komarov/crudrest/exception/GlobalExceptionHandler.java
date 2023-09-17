@@ -15,14 +15,8 @@ import java.util.Set;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(NotFoundException.class)
-    protected ResponseEntity<Object> handleNotFound(NotFoundException exception){
-        return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
-
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException exception){
+    public ResponseEntity<Object> handleValidationExceptions(HttpStatus httpStatus, MethodArgumentNotValidException exception){
         Set<String> errorsSet = new HashSet<>();
 
         exception.getBindingResult().getAllErrors().forEach(error -> {
@@ -30,18 +24,13 @@ public class GlobalExceptionHandler {
             errorsSet.add(errorMessage);
         });
 
-        return buildErrorArrayResponse(errorsSet.toArray(new String[0]));
+        return buildErrorArrayResponse(httpStatus, errorsSet.toArray(new String[0]));
     }
 
-    private static ResponseEntity<Object> buildErrorResponse(HttpStatus httpStatus, String message){
-        ErrorResponse response = new ErrorResponse(httpStatus.value(), httpStatus.getReasonPhrase(), message);
-        return ResponseEntity.status(httpStatus.value()).body(response);
-    }
-
-    private static ResponseEntity<Object> buildErrorArrayResponse(String[] message){
+    private static ResponseEntity<Object> buildErrorArrayResponse(HttpStatus httpStatus, String[] message){
         ErrorArrayResponse response = new ErrorArrayResponse(
-                HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), message);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(response);
+                httpStatus.value(), httpStatus.getReasonPhrase(), message);
+        return ResponseEntity.status(httpStatus.value()).body(response);
     }
 
     @Getter
