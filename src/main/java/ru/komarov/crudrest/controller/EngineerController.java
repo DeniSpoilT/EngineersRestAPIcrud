@@ -5,8 +5,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.persistence.EntityGraph;
-import jakarta.persistence.TypedQuery;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +18,7 @@ import ru.komarov.crudrest.service.EngineerService;
 
 import java.util.List;
 
-import static ru.komarov.crudrest.constant.Constant.ENGINEER_CREATED;
-import static ru.komarov.crudrest.constant.Constant.ENGINEER_UPDATED;
+import static ru.komarov.crudrest.constant.Constant.*;
 
 @RestController
 @Validated
@@ -29,9 +26,9 @@ import static ru.komarov.crudrest.constant.Constant.ENGINEER_UPDATED;
 @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ok",
         content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = Engineer.class))}),
-        @ApiResponse(responseCode = "201", description = "Engineer created"),
-        @ApiResponse(responseCode = "400", description = "Invalid operation"),
-        @ApiResponse(responseCode = "404", description = "Id not found")})
+        @ApiResponse(responseCode = "201", description = ENGINEER_CREATED),
+        @ApiResponse(responseCode = "400", description = INVALID_OPERATION),
+        @ApiResponse(responseCode = "404", description = ENGINEER_NOT_FOUND)})
 public class EngineerController {
 
    private final EngineerService engineerService;

@@ -9,7 +9,10 @@ import ru.komarov.crudrest.dto.RequestOnRepairDTO;
 import ru.komarov.crudrest.model.Engineer;
 import ru.komarov.crudrest.model.RequestOnRepair;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @Qualifier("EngineerDTOConverter")
@@ -31,7 +34,8 @@ public class EngineerDTOConverter implements EntityDTOConverter<EngineerDTO, Eng
         if (engineer.getRequests() != null) {
             List<RequestOnRepair> requests = engineer.getRequests();
             List<RequestOnRepairDTO> requestDTOs = requests.stream()
-                    .map(requestOnRepair -> requestDTOConverter.toDTO(requestOnRepair))
+                    .map(requestDTOConverter::toDTO)
+                    .distinct()
                     .toList();
             engineerDto.setRequests(requestDTOs);
         }
@@ -63,7 +67,10 @@ public class EngineerDTOConverter implements EntityDTOConverter<EngineerDTO, Eng
                 .build();
 
         if (engineerDto.getRequests() != null) {
-            List<RequestOnRepair> requests = requestOnRepairRepository.findAllByEngineerId(engineerDto.getId());
+            List<RequestOnRepair> requests = requestOnRepairRepository.findAllByEngineerId(engineerDto.getId())
+                    .stream()
+                    .distinct()
+                    .toList();
             engineer.setRequests(requests);
         }
         return engineer;

@@ -17,8 +17,7 @@ import ru.komarov.crudrest.service.RequestOnRepairService;
 
 import java.util.List;
 
-import static ru.komarov.crudrest.constant.Constant.REQUEST_ON_REPAIR_CREATED;
-import static ru.komarov.crudrest.constant.Constant.REQUEST_ON_REPAIR_UPDATED;
+import static ru.komarov.crudrest.constant.Constant.*;
 
 @RestController
 @Validated
@@ -26,9 +25,9 @@ import static ru.komarov.crudrest.constant.Constant.REQUEST_ON_REPAIR_UPDATED;
 @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ok",
         content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = RequestOnRepair.class))}),
-        @ApiResponse(responseCode = "201", description = "Request on repair created"),
-        @ApiResponse(responseCode = "400", description = "Invalid operation"),
-        @ApiResponse(responseCode = "404", description = "Id not found")})
+        @ApiResponse(responseCode = "201", description = REQUEST_ON_REPAIR_CREATED),
+        @ApiResponse(responseCode = "400", description = INVALID_OPERATION),
+        @ApiResponse(responseCode = "404", description = REQUEST_ON_REPAIR_NOT_FOUND)})
 public class RequestOnRepairController {
 
     private final RequestOnRepairService requestOnRepairService;

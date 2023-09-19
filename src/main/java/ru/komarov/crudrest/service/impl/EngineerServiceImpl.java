@@ -41,7 +41,7 @@ public class EngineerServiceImpl implements EngineerService {
     @Transactional
     public void deleteById(Long id) {
         Engineer engineer = engineerRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ENGINEER_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException("id: " + id + " not found"));
         engineerRepository.delete(engineer);
     }
 
