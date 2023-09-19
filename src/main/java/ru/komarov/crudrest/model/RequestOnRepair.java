@@ -5,11 +5,11 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RequestOnRepair {
 
     @Id

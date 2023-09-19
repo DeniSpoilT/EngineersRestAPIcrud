@@ -3,9 +3,7 @@ package ru.komarov.crudrest.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.komarov.crudrest.dto.validation.MaxDate;
 import ru.komarov.crudrest.dto.validation.MinDate;
@@ -16,8 +14,7 @@ import java.util.List;
 import static ru.komarov.crudrest.constant.Constant.*;
 
 @Builder
-@Getter
-@Setter
+@Data
 public class EngineerDTO {
 
     private Long id;

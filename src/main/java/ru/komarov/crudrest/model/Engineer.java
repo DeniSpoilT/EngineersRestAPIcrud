@@ -6,13 +6,13 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Engineer {
 
     @Id

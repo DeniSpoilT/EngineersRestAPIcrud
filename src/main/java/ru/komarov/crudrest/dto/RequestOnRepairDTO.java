@@ -1,9 +1,7 @@
 package ru.komarov.crudrest.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import ru.komarov.crudrest.dto.validation.MinDate;
 
 import java.time.LocalDate;
@@ -11,8 +9,7 @@ import java.time.LocalDate;
 import static ru.komarov.crudrest.constant.Constant.*;
 
 @Builder
-@Getter
-@Setter
+@Data
 public class RequestOnRepairDTO {
 
     private Long id;
