@@ -13,6 +13,8 @@ import ru.komarov.crudrest.model.RequestOnRepair;
 
 import java.util.Optional;
 
+import static ru.komarov.crudrest.constant.Constant.ENGINEER_NOT_FOUND;
+
 @Component
 @Qualifier("RequestDTOConverter")
 public class RequestDTOConverter implements EntityDTOConverter<RequestOnRepairDTO, RequestOnRepair> {
@@ -64,8 +66,8 @@ public class RequestDTOConverter implements EntityDTOConverter<RequestOnRepairDT
 
         if (requestOnRepairDto.getEngineerId() != null) {
             Optional<Engineer> optionalEngineer = engineerRepository.findById(requestOnRepairDto.getEngineerId());
-            Engineer engineer = optionalEngineer.orElseThrow(() -> new NotFoundException("Engineer with id: "
-                    + requestOnRepairDto.getEngineerId() + " not found."));
+            Engineer engineer = optionalEngineer.orElseThrow(() -> new NotFoundException(requestOnRepairDto.getEngineerId(),
+                    ENGINEER_NOT_FOUND));
             entity.setEngineer(engineer);
             engineer.getRequests().add(entity);
         }

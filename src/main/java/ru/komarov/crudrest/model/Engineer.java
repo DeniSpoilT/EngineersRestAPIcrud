@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -28,6 +27,6 @@ public class Engineer {
     private boolean carAvailability;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "engineer")
+    @OneToMany(mappedBy = "engineer", cascade = CascadeType.DETACH)
     private List<RequestOnRepair> requests;
 }
