@@ -1,10 +1,10 @@
 package ru.komarov.crudrest.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
-public class NotFoundException extends ResponseStatusException {
-    public NotFoundException(String message) {
-        super(HttpStatus.NOT_FOUND, message);
+import static ru.komarov.crudrest.constant.Constant.BY_ID;
+
+public class NotFoundException extends RuntimeException {
+    public NotFoundException(Long id, String message) {
+        super(message + BY_ID + id);
     }
 }

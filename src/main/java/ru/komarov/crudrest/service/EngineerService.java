@@ -1,7 +1,6 @@
 package ru.komarov.crudrest.service;
 
 import ru.komarov.crudrest.dto.EngineerDTO;
-import ru.komarov.crudrest.model.Engineer;
 
 import java.util.List;
 

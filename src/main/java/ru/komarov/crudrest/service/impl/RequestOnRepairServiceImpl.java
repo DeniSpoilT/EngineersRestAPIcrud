@@ -38,7 +38,7 @@ public class RequestOnRepairServiceImpl implements RequestOnRepairService {
     @Transactional
     public void deleteById(Long id) {
         RequestOnRepair requestOnRepair = requestOnRepairRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(REQUEST_ON_REPAIR_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(id,  REQUEST_ON_REPAIR_NOT_FOUND));
         requestOnRepairRepository.delete(requestOnRepair);
     }
 
@@ -48,7 +48,7 @@ public class RequestOnRepairServiceImpl implements RequestOnRepairService {
         Optional<RequestOnRepair> optionalRequestOnRepair = requestOnRepairRepository.findById(id);
 
         RequestOnRepair requestOnRepair = optionalRequestOnRepair.orElseThrow(()
-                -> new NotFoundException("id: " + id + " not found"));
+                -> new NotFoundException(id,  REQUEST_ON_REPAIR_NOT_FOUND));
 
         requestOnRepair.setAddress(requestOnRepairDto.getAddress());
         requestOnRepair.setPhoneNumber(requestOnRepairDto.getPhoneNumber());
@@ -63,7 +63,7 @@ public class RequestOnRepairServiceImpl implements RequestOnRepairService {
         Optional<RequestOnRepair> optionalRequestOnRepair = requestOnRepairRepository.findById(id);
 
         RequestOnRepair requestOnRepair = optionalRequestOnRepair.orElseThrow(()
-                -> new NotFoundException("id: " + id + " not found"));
+                -> new NotFoundException(id,  REQUEST_ON_REPAIR_NOT_FOUND));
 
         return entityDtoConverter.toDTO(requestOnRepair);
     }

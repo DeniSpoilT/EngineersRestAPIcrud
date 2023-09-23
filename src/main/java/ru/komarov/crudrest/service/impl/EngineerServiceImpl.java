@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.komarov.crudrest.dao.EngineerRepository;
 import ru.komarov.crudrest.dto.EngineerDTO;
-import ru.komarov.crudrest.dto.converter.EngineerDTOConverter;
 import ru.komarov.crudrest.dto.converter.EntityDTOConverter;
 import ru.komarov.crudrest.exception.NotFoundException;
 import ru.komarov.crudrest.model.Engineer;
@@ -41,7 +40,7 @@ public class EngineerServiceImpl implements EngineerService {
     @Transactional
     public void deleteById(Long id) {
         Engineer engineer = engineerRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("id: " + id + " not found"));
+                .orElseThrow(() -> new NotFoundException(id,  ENGINEER_NOT_FOUND));
         engineerRepository.delete(engineer);
     }
 
@@ -72,7 +71,7 @@ public class EngineerServiceImpl implements EngineerService {
         Optional<Engineer> optionalEngineer = engineerRepository.findById(id);
 
         Engineer engineer = optionalEngineer.orElseThrow(()
-                -> new NotFoundException("id: " + id + " not found"));
+                -> new NotFoundException(id,  ENGINEER_NOT_FOUND));
 
         engineer.setName(engineerDto.getName());
         engineer.setLastName(engineerDto.getLastName());
@@ -86,7 +85,7 @@ public class EngineerServiceImpl implements EngineerService {
         Optional<Engineer> optionalEngineer = engineerRepository.findById(id);
 
         Engineer engineer = optionalEngineer.orElseThrow(()
-                -> new NotFoundException("id: " + id + " not found"));
+                -> new NotFoundException(id,  ENGINEER_NOT_FOUND));
 
         return entityDtoConverter.toDTO(engineer);
     }

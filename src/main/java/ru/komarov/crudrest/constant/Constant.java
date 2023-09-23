@@ -20,9 +20,10 @@ public final class Constant {
             "than a month ago";
     public final static String REQUEST_MAX_DATE_CONSTRAINT =  "The date of the repair request should not be" +
             " in the future";
-    public final static String REQUEST_ON_REPAIR_NOT_FOUND = "Request On Repair not found";
+    public final static String REQUEST_ON_REPAIR_NOT_FOUND = "Request on repair was not found";
     public final static String INVALID_OPERATION = "Invalid operation";
-    public static final String ENGINEER_NOT_FOUND = "Engineer not found";
+    public static final String ENGINEER_NOT_FOUND = "Engineer was not found";
+    public final static String BY_ID = " by id: ";
     public static final String REQUEST_ON_REPAIR_CREATED = "Request on repair created";
     public static final Object REQUEST_ON_REPAIR_UPDATED = "Request on repair updated";
     public static final String ENGINEER_CREATED = "Engineer created";

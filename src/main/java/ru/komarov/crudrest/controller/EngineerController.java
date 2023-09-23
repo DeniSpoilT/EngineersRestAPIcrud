@@ -71,7 +71,7 @@ public class EngineerController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Modify engineer with the specified id")
-    public RestResponse update(@PathVariable Long id, @RequestBody EngineerDTO engineerDto) {
+    public RestResponse update(@PathVariable Long id, @RequestBody @Valid EngineerDTO engineerDto) {
         engineerService.update(id, engineerDto);
         return new RestResponse(ENGINEER_UPDATED);
     }

@@ -12,10 +12,16 @@ public class MaxDateValidator implements ConstraintValidator<MaxDate, LocalDate>
     public void initialize(MaxDate constraintAnnotation) {
         this.monthToReduce = constraintAnnotation.monthToReduce();
     }
+
+
     @Override
     public boolean isValid(LocalDate value, ConstraintValidatorContext context) {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate maxDate = currentDate.minusMonths(monthToReduce);
-        return value.isBefore(maxDate);
+        try {
+            LocalDate currentDate = LocalDate.now();
+            LocalDate maxDate = currentDate.minusMonths(monthToReduce);
+            return value.isBefore(maxDate);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
