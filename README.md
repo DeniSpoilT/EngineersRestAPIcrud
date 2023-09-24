@@ -26,11 +26,14 @@
 
 ### Technologies used:
 
-- Spring Boot 3.1.2
+- JAVA 17
+- Spring Boot 
 - Spring Data
+- Spring Test
 - Spring MVC
 - H2 database in memory
 - Maven
+- Lombok
 - Swagger
 
 > Basic configuration in application.properties:
